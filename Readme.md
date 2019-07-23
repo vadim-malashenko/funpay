@@ -18,24 +18,28 @@
 
 ```php
 <?php // 7+
-function parse_message (string $text, int $account_number_length = 15) : array {
+function parse_message (string $message, int $account_number_length = 15) : array {
     
-    return array_reduce (
-        
-        explode (
-            ' ',
-            trim (
+    $data = explode (
+        ' ',
+        trim (
+            preg_replace (
+                '#[^\d,.]+#',
+                ' ',
                 preg_replace (
-                    '#[^\d,.]+#',
-                    ' ',
-                    preg_replace (
-                        '#(\D[,.])|([,.]\D)|([,.]$)#u',
-                        '',
-                        $text
-                    )
+                    '#(\D[,.])|([,.]\D)|([,.]$)#u',
+                    '',
+                    $message
                 )
             )
-        ),
+        )
+    );
+    
+    if (count ($data) != 3) throw new Exception ('Missing required param');
+    
+    $data = array_reduce (
+        
+        $data,
         
         function ($a, $c) use ($account_number_length) {
             
@@ -54,4 +58,8 @@ function parse_message (string $text, int $account_number_length = 15) : array {
         
         []
     );
+    
+    if (count ($data) != 3) throw new Exception ('Invalid param value');
+    
+    return $data;
 }
