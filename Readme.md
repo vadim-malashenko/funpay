@@ -35,15 +35,12 @@ function parse_message (string $text, int $account_number_length = 15) : array {
     );
 }
 
-которое прекрасно работает:
-
-```php
-<?php
 var_export (parse_message (
 'Пароль: 0808
 Спишется 123,4р.
 Перевод на счет 410018896079825'
 ));
+```
 
 array (
   'code' => '0808',
