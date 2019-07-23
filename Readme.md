@@ -20,6 +20,14 @@
 <?php // 7+
 function parse_message (string $message, int $account_number_length = 15) : array {
     
+    if ( ! $message)
+    
+        throw new Exception ('Invalid argument: $message.');
+    
+    if ($account_number_length < 1)
+    
+        throw new Exception ('Invalid argument: $account_number_length.');
+    
     $data = explode (
         ' ',
         trim (
@@ -38,9 +46,9 @@ function parse_message (string $message, int $account_number_length = 15) : arra
     $data_count = count ($data);
     
     if ($data_count < 3)
-    
-        throw new Exception ('Missing required param(s)');
-    
+        
+        throw new Exception ('Message malformed: missing required param.');
+        
     elseif ($data_count > 3)
     
         throw new Exception ('Wrong format');
@@ -69,7 +77,7 @@ function parse_message (string $message, int $account_number_length = 15) : arra
     
     if (count ($data) != 3)
     
-        throw new Exception ('Invalid param(s) value');
+        throw new Exception ('Message malformed: invalid param value.');
     
     return $data;
 }
