@@ -35,7 +35,15 @@ function parse_message (string $message, int $account_number_length = 15) : arra
         )
     );
     
-    if (count ($data) != 3) throw new Exception ('Missing required param');
+    $data_count = count ($data);
+    
+    if ($data_count < 3)
+    
+        throw new Exception ('Missing required param(s)');
+    
+    elseif ($data_count > 3)
+    
+        throw new Exception ('Wrong format');
     
     $data = array_reduce (
         
@@ -59,7 +67,9 @@ function parse_message (string $message, int $account_number_length = 15) : arra
         []
     );
     
-    if (count ($data) != 3) throw new Exception ('Invalid param value');
+    if (count ($data) != 3)
+    
+        throw new Exception ('Invalid param(s) value');
     
     return $data;
 }
