@@ -14,4 +14,22 @@
 Первое условие выполняется, если изменить эмулятор таким образом, чтобы сумма списания всегда была типа float с точностью 0.01
 Для выполнение второго ничего кроме определения инварианта или способа его получения в условиях задачи не остается.
 
-В файле [test.php] (../blob/master/test.php) предложено решение, предполагающее, что оба обозначенных выше условия выполняются.
+Предложенное [решение] (../blob/master/test.php) предполагает, что оба обозначенных выше условия выполняются:
+
+```php
+function parse_message (string $text, int $code_length = 4, int $account_length = 15) : array {
+    
+    return array_reduce (
+        
+        explode (' ', trim (preg_replace ('#[^\d,.]+#', ' ', preg_replace ('#(\D[,.])|([,.]\D)|([,.]$)#u', '', $text)))),
+        
+        function ($a, $c) use ($code_length, $account_length) {
+            
+            $a [(strlen ($c) == $code_length) ? 'code' : ((strlen ($c) == $account_length ? 'account' : 'amount'))] = $c;
+            
+            return $a;
+        },
+        
+        []
+    );
+}
