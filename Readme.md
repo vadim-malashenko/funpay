@@ -44,7 +44,7 @@ function parse_sms (string $message) : array {
                     '#[^\d,.]+#',
                     ' ',
                     preg_replace (
-                        '#(^[,.])|(\D[,.])|([,.]\D)|([,.]$)#u',
+                        '#(^[,.])|(\D[,.])|([,.]\D)|([,.]$)#',
                         ' ',
                         $message
                     )
