@@ -22,11 +22,32 @@ function parse_message (string $text, int $account_number_length = 15) : array {
     
     return array_reduce (
         
-        explode (' ', trim (preg_replace ('#[^\d,.]+#', ' ', preg_replace ('#(\D[,.])|([,.]\D)|([,.]$)#u', '', $text)))),
+        explode (
+            ' ',
+            trim (
+                preg_replace (
+                    '#[^\d,.]+#',
+                    ' ',
+                    preg_replace (
+                        '#(\D[,.])|([,.]\D)|([,.]$)#u',
+                        '',
+                        $text
+                    )
+                )
+            )
+        ),
         
         function ($a, $c) use ($account_number_length) {
             
-            $a [preg_match ('#[,.]#', $c) ? 'amount' : ((strlen ($c) == $account_number_length ? 'account' : 'code'))] = $c;
+            $a [
+                preg_match ('#[,.]#', $c)
+                    ? 'amount'
+                    : (
+                        (strlen ($c) == $account_number_length)
+                            ? 'account'
+                            : 'code'
+                    )
+            ] = $c;
             
             return $a;
         },
