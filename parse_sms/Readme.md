@@ -10,7 +10,7 @@
 
 ![124][1]
 
-[1]: https://github.com/vadim-malashenko/funpay/blob/master/1.jpg
+[1]: https://github.com/vadim-malashenko/funpay/blob/master/parse_sms/1.jpg
 
 Тогда сообщение "123 124 01234567891" валидно по определению, но исходя только из условий невозможно определить где в нем код подтверждения, а где сумма списания.
 
