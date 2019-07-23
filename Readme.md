@@ -17,7 +17,7 @@
 можно предложить следующее решение:
 
 ```php
-<?php // 7.2
+<?php // 7.3.7
 function parse_message (string $text, int $account_number_length = 15) : array {
     
     return array_reduce (
@@ -34,3 +34,19 @@ function parse_message (string $text, int $account_number_length = 15) : array {
         []
     );
 }
+
+которое прекрасно работает:
+
+```php
+<?php
+var_export (parse_message (
+'Пароль: 0808
+Спишется 123,4р.
+Перевод на счет 410018896079825'
+));
+
+array (
+  'code' => '0808',
+  'amount' => '123,4',
+  'account' => '410018896079825',
+)
