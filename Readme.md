@@ -26,10 +26,55 @@
 
 1. [номер кошелька содержит от 11 до 20 цифр включительно](https://kassa.yandex.ru/tech/payout/wallet.html)
 2. код подтверждения содержит не более 10 цифр (by design)
-3. сумма списания содержит один из символов ',' или '.', за которым следует цифра (by design)
+3. сумма списания содержит цифры и один из символов ',' или '.', за которым следует цифра (by design)
 
 Тогда можно предложить следующее решение:
 
 ```php
 <?php // 7+
 
+function parse_sms (string $message) : array {
+        
+    return array_reduce (
+        
+        explode (
+            ' ',
+            trim (
+                preg_replace (
+                    '#[^\d,.]+#',
+                    ' ',
+                    preg_replace (
+                        '#(^[,.])|(\D[,.])|([,.]\D)|([,.]$)#u',
+                        ' ',
+                        $message
+                    )
+                )
+            )
+        ),
+        
+        function ($result, $value) {
+            
+            if (preg_match ('#[,.]#', $value))
+            
+                $result ['amount'] = floatval (str_replace (',', '.', $value));
+            
+            elseif (strlen ($value) < 11)
+            
+                $result ['code'] = $value;
+                
+            elseif (strlen ($value) <= 20)
+            
+                $result ['account'] = $value;
+            
+            return $result;
+        },
+        
+        []
+    )
+    
+    + [
+        'code' => NULL,
+        'account' => NULL,
+        'amount' => NULL
+    ];
+}
