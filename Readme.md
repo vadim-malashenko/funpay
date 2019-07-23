@@ -13,21 +13,21 @@
 
 Преполагая что:
 
-1. сумма списания всегда типа float с точностью 0.01;
-2. номер счета содержит ровно 15 цифр,
+1. сумма списания содержит один из символов ',' или '.';
+2. известно количество цифр в номере счета,
 
-можно предложить следующее решение:
+то можно предложить следующее решение:
 
 ```php
-function parse_message (string $text, int $account_length = 15) : array {
+function parse_message (string $text, int $account_number_length = 15) : array {
     
     return array_reduce (
         
         explode (' ', trim (preg_replace ('#[^\d,.]+#', ' ', preg_replace ('#(\D[,.])|([,.]\D)|([,.]$)#u', '', $text)))),
         
-        function ($a, $c) use ($code_length, $account_length) {
+        function ($a, $c) use ($account_number_length) {
             
-            $a [(strlen ($c) == $code_length) ? 'code' : ((strlen ($c) == $account_length ? 'account' : 'amount'))] = $c;
+            $a [preg_match ('#[,.]#', $c) ? 'amount' : ((strlen ($c) == $account_number_length ? 'account' : 'code'))] = $c;
             
             return $a;
         },
