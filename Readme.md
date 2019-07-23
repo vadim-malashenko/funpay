@@ -47,11 +47,11 @@ function parse_message (string $message, int $account_number_length = 15) : arra
     
     if ($data_count < 3)
         
-        throw new Exception ('Message malformed: missing required param.');
+        throw new Exception ('Message malformed: too few params.');
         
     elseif ($data_count > 3)
     
-        throw new Exception ('Wrong format');
+        throw new Exception ('Message malformed: too much params.');
     
     $data = array_reduce (
         
@@ -77,7 +77,7 @@ function parse_message (string $message, int $account_number_length = 15) : arra
     
     if (count ($data) != 3)
     
-        throw new Exception ('Message malformed: invalid param value.');
+        throw new Exception ('Message malformed: invalid param(s) value.');
     
     return $data;
 }
