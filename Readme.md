@@ -42,6 +42,7 @@ var_export (parse_message (
 ));
 ```
 
+```
 array (
   'code' => '0808',
   'amount' => '123,4',
