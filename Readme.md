@@ -17,7 +17,7 @@
 можно предложить следующее решение:
 
 ```php
-<?php // 7.3.7
+<?php // 7+
 function parse_message (string $text, int $account_number_length = 15) : array {
     
     return array_reduce (
